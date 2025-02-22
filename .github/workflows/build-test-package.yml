@@ -21,14 +21,21 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        # fetch full history so things like auto-changelog work properly
         fetch-depth: 0
+
+    - name: Set up CodeQL
+      uses: github/codeql-action/setup@v2
+      with:
+        languages: javascript, python # Ajoute d'autres langages si nécessaire
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        # setting a registry enables the NODE_AUTH_TOKEN env variable where we can set an npm token.  REQUIRED
         registry-url: 'https://registry.npmjs.org'
 
     - name: Declare some variables
